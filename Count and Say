@@ -1,0 +1,26 @@
+class Solution {
+    public String countAndSay(int n) {
+        String s = "1";
+        for (int i = 1; i < n; i++) {
+            s = nextStep(s);
+        }
+        return s;
+    }
+
+    private String nextStep(String s) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < s.length()) {
+            int count = 1;
+            char digit = s.charAt(i);
+            // Count consecutive occurrences of the same digit
+            while (i + 1 < s.length() && s.charAt(i + 1) == digit) {
+                count++;
+                i++;
+            }
+            sb.append(count).append(digit);
+            i++;
+        }
+        return sb.toString();
+    }
+}
