@@ -1,0 +1,107 @@
+import java.util.Scanner;
+
+class Matrix {
+    private int rows, cols;
+    private int[][] data;
+
+    // Parameterized Constructor
+    public Matrix(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.data = new int[rows][cols];
+    }
+
+    public void inputData(Scanner sc) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                data[i][j] = sc.nextInt();
+            }
+        }
+    }
+
+    // Unary Minus: -A
+    public Matrix negate() {
+        Matrix result = new Matrix(rows, cols);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result.data[i][j] = -this.data[i][j];
+            }
+        }
+        return result;
+    }
+
+    // Addition: A + B
+    public Matrix add(Matrix other) {
+        Matrix result = new Matrix(rows, cols);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result.data[i][j] = this.data[i][j] + other.data[i][j];
+            }
+        }
+        return result;
+    }
+
+    // Subtraction: A - B
+    public Matrix subtract(Matrix other) {
+        Matrix result = new Matrix(rows, cols);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result.data[i][j] = this.data[i][j] - other.data[i][j];
+            }
+        }
+        return result;
+    }
+
+    // Multiplication: A * B
+    public Matrix multiply(Matrix other) {
+        Matrix result = new Matrix(this.rows, other.cols);
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < other.cols; j++) {
+                for (int k = 0; k < this.cols; k++) {
+                    result.data[i][j] += this.data[i][k] * other.data[k][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    public void display() {
+        for (int[] row : data) {
+            for (int val : row) {
+                System.out.print(val + "\t");
+            }
+            System.out.println();
+        }
+    }
+}
+public class MatrixClient {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // For this expression to work, A and B must be Square Matrices (e.g., 2x2)
+        System.out.print("Enter size for square matrices (n for n x n): ");
+        int n = sc.nextInt();
+
+        Matrix A = new Matrix(n, n);
+        System.out.println("Enter data for Matrix A:");
+        A.inputData(sc);
+
+        Matrix B = new Matrix(n, n);
+        System.out.println("Enter data for Matrix B:");
+        B.inputData(sc);
+
+        // Step 1: Part 1 = (-A + B)
+        Matrix part1 = A.negate().add(B);
+
+        // Step 2: Part 2 = (A * B)
+        Matrix part2 = A.multiply(B);
+
+        // Step 3: R = Part 1 - Part 2
+        Matrix R = part1.subtract(part2);
+
+        System.out.println("\nResultant Matrix R:");
+        R.display();
+
+        sc.close();
+    }
+}
