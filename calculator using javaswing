@@ -1,0 +1,99 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class arith extends JFrame implements ActionListener
+{
+    // Declare components
+    JTextField t1, t2, t3;
+    JButton add, sub, mul, div;
+
+    public arith()
+    {
+        // Set frame properties
+        setTitle("Arithmetic Operations");
+        setSize(400, 300);
+        setLayout(null);
+
+        // Create labels
+        JLabel l1 = new JLabel("Enter First Number:");
+        JLabel l2 = new JLabel("Enter Second Number:");
+        JLabel l3 = new JLabel("Result:");
+
+        // Set label positions
+        l1.setBounds(30, 30, 150, 30);
+        l2.setBounds(30, 70, 150, 30);
+        l3.setBounds(30, 110, 150, 30);
+
+        // Create text fields
+        t1 = new JTextField();
+        t2 = new JTextField();
+        t3 = new JTextField();
+
+        // Set text field positions
+        t1.setBounds(180, 30, 150, 30);
+        t2.setBounds(180, 70, 150, 30);
+        t3.setBounds(180, 110, 150, 30);
+
+        // Create buttons
+        add = new JButton("Add");
+        sub = new JButton("Subtract");
+        mul = new JButton("Multiply");
+        div = new JButton("Divide");
+
+        // Set button positions
+        add.setBounds(30, 160, 80, 30);
+        sub.setBounds(120, 160, 100, 30);
+        mul.setBounds(230, 160, 100, 30);
+        div.setBounds(150, 210, 100, 30);
+
+        // Add components to frame
+        add(l1); 
+        add(t1);
+        add(l2); 
+        add(t2);
+        add(l3); 
+        add(t3);
+        add(add); 
+        add(sub); 
+        add(mul); 
+        add(div);
+
+        // Add action listeners
+        add.addActionListener(this);
+        sub.addActionListener(this);
+        mul.addActionListener(this);
+        div.addActionListener(this);
+
+        // Set frame visible
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    // Action when button is clicked
+    public void actionPerformed(ActionEvent e)
+    {
+        int a = Integer.parseInt(t1.getText());
+        int b = Integer.parseInt(t2.getText());
+        int result = 0;
+
+        if (e.getSource() == add)
+            result = a + b;
+
+        if (e.getSource() == sub)
+            result = a - b;
+
+        if (e.getSource() == mul)
+            result = a * b;
+
+        if (e.getSource() == div)
+            result = a / b;
+
+        t3.setText(String.valueOf(result));
+    }
+
+    public static void main(String args[])
+    {
+        new arith();
+    }
+}
