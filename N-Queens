@@ -1,0 +1,55 @@
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> result = new ArrayList<>();
+        char[][] board = new char[n][n];
+        
+        // Initialize board with empty spaces
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(board[i], '.');
+        }
+        
+        // Tracking arrays for O(1) conflict checks
+        boolean[] cols = new boolean[n];
+        boolean[] diag1 = new boolean[2 * n]; // Top-left to bottom-right (r-c constant)
+        boolean[] diag2 = new boolean[2 * n]; // Top-right to bottom-left (r+c constant)
+        
+        backtrack(0, n, board, result, cols, diag1, diag2);
+        return result;
+    }
+
+    private void backtrack(int row, int n, char[][] board, List<List<String>> result, 
+                           boolean[] cols, boolean[] diag1, boolean[] diag2) {
+        // Base case: All queens placed
+        if (row == n) {
+            result.add(construct(board));
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            // Use (row - col + n) for diag1 to avoid negative indices
+            int d1 = row - col + n;
+            int d2 = row + col;
+            
+            if (cols[col] || diag1[d1] || diag2[d2]) continue;
+
+            // Choose
+            board[row][col] = 'Q';
+            cols[col] = diag1[d1] = diag2[d2] = true;
+
+            // Explore
+            backtrack(row + 1, n, board, result, cols, diag1, diag2);
+
+            // Un-choose (Backtrack)
+            board[row][col] = '.';
+            cols[col] = diag1[d1] = diag2[d2] = false;
+        }
+    }
+
+    private List<String> construct(char[][] board) {
+        List<String> path = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            path.add(new String(board[i]));
+        }
+        return path;
+    }
+}
