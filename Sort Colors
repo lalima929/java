@@ -1,0 +1,30 @@
+class Solution {
+    public void sortColors(int[] nums) {
+        int low = 0;           // Boundary for 0s
+        int mid = 0;           // Current element pointer
+        int high = nums.length - 1; // Boundary for 2s
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                // If it's 0, swap with the low pointer and move both forward
+                swap(nums, low, mid);
+                low++;
+                mid++;
+            } else if (nums[mid] == 1) {
+                // If it's 1, it's already in the right place, just move forward
+                mid++;
+            } else {
+                // If it's 2, swap with the high pointer and move high backward
+                // Do NOT move mid forward yet, as the swapped element needs checking
+                swap(nums, mid, high);
+                high--;
+            }
+        }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
