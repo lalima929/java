@@ -1,0 +1,50 @@
+import java.util.*;
+
+class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> res = new ArrayList<>();
+        int i = 0;
+        
+        while (i < words.length) {
+            int j = i + 1;
+            int lineLength = words[i].length();
+            
+            // 1. Determine how many words fit in the current line
+            while (j < words.length && lineLength + 1 + words[j].length() <= maxWidth) {
+                lineLength += 1 + words[j].length();
+                j++;
+            }
+            
+            StringBuilder sb = new StringBuilder();
+            int count = j - i; // Number of words in this line
+            
+            // 2. Handle last line or line with only one word (Left Justified)
+            if (j == words.length || count == 1) {
+                for (int k = i; k < j; k++) {
+                    sb.append(words[k]);
+                    if (k < j - 1) sb.append(" ");
+                }
+                while (sb.length() < maxWidth) sb.append(" ");
+            } else {
+                // 3. Middle Justification: Distribute spaces evenly
+                int totalSpaces = maxWidth - (lineLength - (count - 1));
+                int spacesBetween = totalSpaces / (count - 1);
+                int extraSpaces = totalSpaces % (count - 1);
+                
+                for (int k = i; k < j; k++) {
+                    sb.append(words[k]);
+                    if (k < j - 1) {
+                        // Add base spaces + one extra if we have "remainder" extra spaces
+                        int spacesToAdd = spacesBetween + (k - i < extraSpaces ? 1 : 0);
+                        for (int s = 0; s < spacesToAdd; s++) sb.append(" ");
+                    }
+                }
+            }
+            
+            res.add(sb.toString());
+            i = j; // Move to the next batch of words
+        }
+        
+        return res;
+    }
+}
