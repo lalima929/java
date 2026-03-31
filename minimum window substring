@@ -1,0 +1,45 @@
+import java.util.*;
+
+class Solution {
+    public String minWindow(String s, String t) {
+        if (s == null || t == null || s.length() < t.length()) return "";
+
+        // 1. Map to store the frequency of characters in t
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        int left = 0, right = 0;
+        int minLen = Integer.MAX_VALUE;
+        int startNode = 0;
+        int count = map.size(); // Number of unique characters in t to be matched
+
+        // 2. Start sliding the right pointer
+        while (right < s.length()) {
+            char cRight = s.charAt(right);
+            if (map.containsKey(cRight)) {
+                map.put(cRight, map.get(cRight) - 1);
+                if (map.get(cRight) == 0) count--; // One unique character fully matched
+            }
+            right++;
+
+            // 3. When all characters are matched, try to shrink from the left
+            while (count == 0) {
+                if (right - left < minLen) {
+                    minLen = right - left;
+                    startNode = left;
+                }
+
+                char cLeft = s.charAt(left);
+                if (map.containsKey(cLeft)) {
+                    map.put(cLeft, map.get(cLeft) + 1);
+                    if (map.get(cLeft) > 0) count++; // We lost a required character match
+                }
+                left++;
+            }
+        }
+
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(startNode, startNode + minLen);
+    }
+}
