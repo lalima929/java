@@ -1,0 +1,18 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner ob=new Scanner(System.in);
+        int lineNumber = 1;
+    
+    while (ob.hasNext()) {
+        String line = ob.nextLine();
+        System.out.println(lineNumber + " " + line);
+        lineNumber++;}
+    }
+}
