@@ -1,0 +1,28 @@
+class Solution {
+    public int numDecodings(String s) {
+        if (s == null || s.length() == 0 || s.charAt(0) == '0') {
+            return 0;
+        }
+
+        int n = s.length();
+        int[] dp = new int[n + 1];
+        dp[0] = 1; // Base case: empty string has 1 way
+        dp[1] = 1; // First char is not '0', so 1 way
+
+        for (int i = 2; i <= n; i++) {
+            // Check single digit decoding (must not be '0')
+            if (s.charAt(i - 1) != '0') {
+                dp[i] += dp[i - 1];
+            }
+
+            // Check two digit decoding (must be between 10 and 26)
+            int twoDigit = Integer.parseInt(s.substring(i - 2, i));
+            if (twoDigit >= 10 && twoDigit <= 26) {
+                dp[i] += dp[i - 2];
+            }
+        }
+
+        return dp[n];
+    }
+    
+}
